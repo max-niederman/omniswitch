@@ -77,6 +77,45 @@ K by −0.12 %/K of magnet temp using winding resistance as the thermometer.
   global current budget + e-fuse; realistic typing ~5 W). ≥2 mF bulk +
   4.7 µF/key; 27–30 V TVS for release regen bursts.
 
+## Shell slit: evaluated and REJECTED (2026-07-28)
+
+Question: axial slit(s) in the shell to block eddy currents. Answer: **keep the
+plain closed tube** — the slit removes almost nothing here, and costs real
+performance. Studies: `sim/slit_shielding.py` (planar 2D transverse-shielding),
+`sim/`+`results/st_w10_slitac.csv`, `st_w10_slitside.csv`.
+
+- **The slit doesn't kill the eddy screening in this design.** Induced E is
+  azimuthal, but because the coils are driven series-opposed the AC flux is odd
+  in z and the net-winding circumferential mode carries ~zero current
+  (FEMM: |I_net| ≤ 16 mA while distributed eddies dissipate 6.8 W at solve
+  drive). The actual screening is zero-net-winding local loops (azimuthal out
+  at one z, back at another, closing axially) — these survive a slit by closing
+  along the slit edges. FEMM proof: a shell constrained to zero net current is
+  digit-identical to the unslit shell at 20 Hz–50 kHz; a common-mode control
+  drive (which this design never produces) shows the slit working (−81% lag).
+  Analytic plate-mode estimate: 1 slit keeps ~65% of the lag, 2 slits ~37%.
+- Benefit if slit anyway: 5.7 µs → ~2–4 µs lag (spec margin already 1750×) and
+  1.4 mW → 0.3–0.7 mW PWM ripple loss (vs ~1.4 W hold). Noise.
+- **Single-slit cost**: 27–54 mN constant-direction lateral preload on the mover
+  (Maxwell stress of the missing wedge; kerf 0.2/0.4 mm) → 4–8 mN
+  velocity-sign-dependent rail friction, 40–80% of the 10 mN feel threshold and
+  NOT firmware-compensable (unlike cogging). Plus worst-orientation transverse
+  shielding halves (S_eff 23 → 11–15).
+- **Two symmetric slits**: side-load cancels to a 15–17 mN tolerance residual
+  (±0.05 mm kerf, ±2°), BUT both circumferential shunt paths break —
+  worst-orientation S_eff collapses to 4.0–5.6 (neighbor force 4.5–6.2 mN,
+  approaching feel threshold before feedforward), the slit geometry is
+  gap-reluctance-limited (high µ no longer helps), and the housing becomes two
+  loose half-shells (~170× torsional derating).
+- A slit aligned with the transverse field costs zero shielding — but a keyboard
+  victim has orthogonal neighbors on both axes, so the worst orientation binds;
+  45°-to-grid slit azimuth recovers ~25–40%.
+- If a slit is ever *forced* (manufacturing): ONE slit, ≤0.2–0.3 mm kerf,
+  bridged ends (one-piece tube), laser/EDM-cut DOM tube (never roll-formed
+  open-seam as the OD-setting housing), azimuth 45° off-grid or toward board
+  edge. If eddy screening ever genuinely matters, the fix is a ferrite return,
+  not a slit.
+
 ## Open items before committing hardware
 
 1. Vendor datasheet + quotes: D8×12 N45SH (margins near threshold use catalog
