@@ -1,0 +1,12 @@
+# FEMM runtime state (writable app copy + wine prefix)
+.femm/
+
+# Simulation outputs
+results/
+*.ans
+*.fem.bak
+
+# Nix
+result
+result-*
+__pycache__/
