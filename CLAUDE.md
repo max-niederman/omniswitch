@@ -38,6 +38,11 @@ Design implications worked out so far:
   required current ∝ 1/N, power and τ invariant. Pick N last, to match the
   motor driver and 24 V bus.
 
+## Workflow
+
+Commit AND push automatically at logical checkpoints (a completed study,
+design decision, toolchain fix, doc update) — don't wait to be asked.
+
 ## Toolchain — everything through the Nix flake
 
 All dependencies and builds are managed by `flake.nix` (this is a hard project
