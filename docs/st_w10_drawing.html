@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>omniswitch st_w10 — mechanical reference drawing</title>
+<style>
+  :root {
+    --ink: #1b2430;
+    --dim: #35507a;
+    --faint: #8a94a3;
+  }
+  html { background: #c8ccd2; }
+  body {
+    font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+    color: var(--ink);
+    margin: 24px auto;
+    max-width: 1260px;
+  }
+  .sheet {
+    background: #fdfdfb;
+    border: 2px solid var(--ink);
+    outline: 1px solid var(--ink);
+    outline-offset: -8px;
+    padding: 26px 30px 18px;
+    box-shadow: 0 4px 24px rgba(0,0,0,.25);
+  }
+  h1 { font-size: 19px; margin: 0 0 2px; letter-spacing: .02em; }
+  .sub { font-size: 12px; color: #444; margin-bottom: 14px; }
+  .views { display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: flex-start; }
+  .viewcol { display: flex; flex-direction: column; gap: 8px; }
+  figure { margin: 0; }
+  figcaption {
+    font-size: 11.5px; font-weight: 600; text-align: center;
+    margin-top: 2px; letter-spacing: .04em;
+  }
+  figcaption .note { font-weight: 400; color: #555; }
+  svg { display: block; }
+  svg text { font-family: system-ui, "Segoe UI", Roboto, sans-serif; fill: var(--ink); }
+  /* stroke only — fill must stay an attribute, or this class would override
+     the inline fills/hatch patterns on every part it borders */
+  .partline  { stroke: var(--ink); stroke-width: 1.5; }
+  .dimline   { stroke: var(--dim); stroke-width: 0.8; fill: none; }
+  .dimtext   { fill: var(--dim); font-size: 10.5px; }
+  .parttext  { font-size: 10.5px; }
+  .cl        { stroke: #b04545; stroke-width: 0.8; stroke-dasharray: 14 3 3 3; fill: none; }
+  .phantom   { stroke: #8a94a3; stroke-width: 1; stroke-dasharray: 6 3; fill: none; }
+  .tbd       { stroke: #8a94a3; stroke-width: 1.1; stroke-dasharray: 5 3; }
+
+  .tables { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 16px; }
+  table { border-collapse: collapse; font-size: 11.5px; }
+  caption {
+    caption-side: top; text-align: left; font-weight: 700; font-size: 12px;
+    padding-bottom: 4px; letter-spacing: .03em;
+  }
+  th, td { border: 1px solid #99a1ac; padding: 2.5px 7px; }
+  th { background: #e8ebef; font-weight: 600; text-align: left; }
+  td.n { text-align: right; font-variant-numeric: tabular-nums; }
+  .swatch { display: inline-block; width: 11px; height: 11px; border: 1px solid #555;
+            vertical-align: -1.5px; margin-right: 5px; }
+
+  .notes { margin-top: 16px; font-size: 11.5px; columns: 2; column-gap: 34px; }
+  .notes h2 { font-size: 12px; margin: 0 0 4px; column-span: all; letter-spacing: .03em; }
+  .notes ol { margin: 0; padding-left: 18px; }
+  .notes li { margin-bottom: 5px; break-inside: avoid; }
+
+  .titleblock {
+    margin-top: 16px; margin-left: auto; width: 560px;
+    border: 1.5px solid var(--ink); display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr; font-size: 10.5px;
+  }
+  .titleblock > div { border: 0.5px solid var(--ink); padding: 3px 8px; }
+  .titleblock .k { color: #666; font-size: 9px; text-transform: uppercase; letter-spacing: .06em; }
+  .titleblock .big { font-size: 14px; font-weight: 700; }
+  @media print { html { background: #fff; } .sheet { box-shadow: none; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <h1>omniswitch actuator <span style="color:#b04545">st_w10</span> — mechanical reference drawing</h1>
+  <div class="sub">
+    Moving-magnet voice-coil keyswitch actuator. All dimensions <b>mm</b>, axisymmetric about ℄.
+    Geometry source of truth: <code>sim/converge_shell.py</code> (VARIANTS["st_w10"]) + <code>docs/DESIGN.md</code>, frozen 2026-07-28.
+  </div>
+
+  <!-- shared hatch patterns -->
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <pattern id="hSteel" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <line x1="0" y1="0" x2="0" y2="6" stroke="#5b7b9b" stroke-width="0.8"/>
+      </pattern>
+      <pattern id="hCu" width="4.5" height="4.5" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+        <line x1="0" y1="0" x2="0" y2="4.5" stroke="#c07840" stroke-width="0.7"/>
+      </pattern>
+      <pattern id="hMag" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <line x1="0" y1="0" x2="0" y2="7" stroke="#4f8f5f" stroke-width="0.7"/>
+        <line x1="0" y1="3.5" x2="7" y2="3.5" stroke="#4f8f5f" stroke-width="0.7"/>
+      </pattern>
+    </defs>
+  </svg>
+
+  <div class="views">
+    <figure>
+      <div id="section"></div>
+      <figcaption>SECTION A–A &nbsp;<span class="note">(through axis, +z = toward keycap; magnet shown at mid-stroke z=0)</span></figcaption>
+    </figure>
+    <div class="viewcol">
+      <figure>
+        <div id="endview"></div>
+        <figcaption>VIEW B — END VIEW &nbsp;<span class="note">(from +z, end caps omitted)</span></figcaption>
+      </figure>
+      <figure>
+        <div id="detail"></div>
+        <figcaption>DETAIL C — RADIAL STACK &nbsp;<span class="note">(half-section at z=0, enlarged)</span></figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="tables">
+    <table>
+      <caption>Radial stack (from axis)</caption>
+      <thead><tr><th>#</th><th>Part</th><th>r<sub>in</sub></th><th>r<sub>out</sub></th>
+        <th>wall</th><th>Ø<sub>in</sub></th><th>Ø<sub>out</sub></th><th>Material</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><span class="swatch" style="background:#dff0e2"></span>Magnet (mover)</td>
+            <td class="n">0</td><td class="n">4.00</td><td class="n">—</td><td class="n">—</td><td class="n">8.00</td>
+            <td>NdFeB N45SH, D8×12, axially magnetized</td></tr>
+        <tr><td>2</td><td><span class="swatch" style="background:#ececec"></span>Guide gap + bobbin</td>
+            <td class="n">4.00</td><td class="n">4.75</td><td class="n">0.75</td><td class="n">8.00</td><td class="n">9.50</td>
+            <td>PTFE or POM guide surface (bobbin design TBD, note 4)</td></tr>
+        <tr><td>3</td><td><span class="swatch" style="background:#f6dcc4"></span>Coil ×2 (lo, hi)</td>
+            <td class="n">4.75</td><td class="n">6.95</td><td class="n">2.20</td><td class="n">9.50</td><td class="n">13.90</td>
+            <td>Cu magnet wire, AWG 33 heavy-build (see winding)</td></tr>
+        <tr><td>4</td><td><span class="swatch" style="background:#fff"></span>Clearance</td>
+            <td class="n">6.95</td><td class="n">7.00</td><td class="n">0.05</td><td class="n">13.90</td><td class="n">14.00</td>
+            <td>air</td></tr>
+        <tr><td>5</td><td><span class="swatch" style="background:#dbe4ee"></span>Shell = housing</td>
+            <td class="n">7.00</td><td class="n">8.00</td><td class="n">1.00</td><td class="n">14.00</td><td class="n">16.00</td>
+            <td>1018 (mild) steel tube, closed — NO slit (note 5)</td></tr>
+      </tbody>
+    </table>
+
+    <table>
+      <caption>Axial coordinates (z from mid-stroke magnet center; datum A = bottom cap face — shell bottom face is at A&thinsp;+&thinsp;1.0)</caption>
+      <thead><tr><th>Feature</th><th>z<sub>bot</sub></th><th>z<sub>top</sub></th>
+        <th>from A</th><th>Length</th></tr></thead>
+      <tbody>
+        <tr><td>Bottom end cap (TBD)</td><td class="n">−14.0</td><td class="n">−13.0</td><td class="n">0 – 1.0</td><td class="n">1.0</td></tr>
+        <tr><td>Shell / housing</td><td class="n">−13.0</td><td class="n">+13.0</td><td class="n">1.0 – 27.0</td><td class="n">26.0</td></tr>
+        <tr><td>Coil lo</td><td class="n">−12.5</td><td class="n">−0.5</td><td class="n">1.5 – 13.5</td><td class="n">12.0</td></tr>
+        <tr><td>Inter-coil gap</td><td class="n">−0.5</td><td class="n">+0.5</td><td class="n">13.5 – 14.5</td><td class="n">1.0</td></tr>
+        <tr><td>Coil hi</td><td class="n">+0.5</td><td class="n">+12.5</td><td class="n">14.5 – 26.5</td><td class="n">12.0</td></tr>
+        <tr><td>Top end cap (TBD)</td><td class="n">+13.0</td><td class="n">+14.0</td><td class="n">27.0 – 28.0</td><td class="n">1.0</td></tr>
+        <tr><td>Magnet @ mid-stroke</td><td class="n">−6.0</td><td class="n">+6.0</td><td class="n">8.0 – 20.0</td><td class="n">12.0</td></tr>
+        <tr><td>Magnet swept envelope (±2.5 travel)</td><td class="n">−8.5</td><td class="n">+8.5</td><td class="n">5.5 – 22.5</td><td class="n">17.0</td></tr>
+        <tr><td>Hall sensing element, on axis (TBD, note 9)</td><td class="n" colspan="2">z ≈ −9.5</td><td class="n">≈ 4.5</td><td class="n">—</td></tr>
+        <tr><td><b>Overall package</b></td><td class="n">−14.0</td><td class="n">+14.0</td><td class="n">0 – 28.0</td><td class="n"><b>28.0</b></td></tr>
+      </tbody>
+    </table>
+
+    <table>
+      <caption>Winding + magnet (preliminary, DESIGN.md)</caption>
+      <tbody>
+        <tr><th>Turns</th><td>≈480 / coil, ×2</td></tr>
+        <tr><th>Wire</th><td>AWG 33 heavy-build</td></tr>
+        <tr><th>Fill target</th><td>0.5</td></tr>
+        <tr><th>Connection</th><td>series-<b>opposed</b>, one continuous wire; winding sense reverses at the z=0 gap</td></tr>
+        <tr><th>R (pair, hot)</th><td>≈ 27 Ω</td></tr>
+        <tr><th>Hold, worst</th><td>≈ 270 mA / 7.3 V (0.8 N)</td></tr>
+        <tr><th>Bus stall</th><td>≈ 0.9 A → ≈ 2.6 N</td></tr>
+        <tr><th>Magnet</th><td>D8×12 N45SH (N38UH if any ≥120 °C exposure); drawn N → +z, alternate rows flipped (note 10); coating TBD</td></tr>
+        <tr><th>Cogging</th><td>0.161 N max, centering (firmware-mapped)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="notes">
+    <h2>NOTES</h2>
+    <ol>
+      <li>All dimensions mm, nominal — geometry is the FEMM-verified design record, <b>not</b> toleranced for manufacture. Part is axisymmetric about ℄; axial features symmetric about z=0 except Hall sensor and cap details.</li>
+      <li><b>Hard envelope constraints:</b> OD ≤ 16.0 (at limit — no paint/coating allowance on shell OD); overall length ≤ 35.0 (28.0 nominal leaves margin). 19.05 mm key pitch → 3.05 mm gap between adjacent units.</li>
+      <li><b>Mover:</b> magnet + key attachment only. Travel ±2.5 from shown mid-stroke position = 5.0 full-force stroke. Magnet is axially magnetized; drawn with N toward +z, but see note 10. Keycap stem attachment TBD — the stem is drawn illustratively, its width is not a dimension.</li>
+      <li><b>Coil ID is a hard floor:</b> bobbin/guide must keep winding r<sub>in</sub> ≥ 4.75 (Ø9.50). If the bobbin wall pushes r<sub>in</sub> above 4.75, winding numbers must be re-run (DESIGN.md open item 2). Guide bore must clear the Ø8.00 magnet over the full ±2.5 travel with low friction (PTFE/POM running surface).</li>
+      <li><b>Shell:</b> plain closed tube, 1.0 wall. Do NOT slit (evaluated and rejected — see DESIGN.md §"Shell slit"). Low-carbon magnetic steel (1018/mild); DOM tube preferred, never roll-formed open-seam as the OD-setting part. The shell is the flux return, the magnetic shield, and the housing.</li>
+      <li><b>End caps:</b> polymer (material spec open), assumed ≤1.0 axial each to stay inside the 28.0 envelope; geometry not yet designed. Drawn as full-Ø16 discs butted to the shell end faces for envelope accounting only — attachment (bore plug / adhesive / snap) and the top-cap stem clearance bore are undesigned. Steel caps would add shielding but also cogging — simulate before substituting.</li>
+      <li><b>Coil polarity:</b> lo coil NI = −300 A·t, hi coil NI = +300 A·t at rated drive s=1 (opposed). One continuous wire; phase reversal at the inter-coil gap.</li>
+      <li>At full +2.5 travel the magnet top face reaches z = +8.5, leaving 4.5 to the shell end (z = +13) for stem/guide features inside the bore.</li>
+      <li><b>Hall sensor:</b> z ≈ −9.5 is the <i>sensing element</i> location (FEMM field-evaluation point of the crosstalk study — not yet simulated in this shell), on axis, in bore. Only 1.0 exists between it and the magnet swept envelope (z = −8.5): the entire sensor package + its carrier from the bottom-cap region must stay below z = −8.5, or interfere with the mover. Carrier not yet designed.</li>
+      <li><b>Row-stripe polarity:</b> this sheet draws N toward +z (keycap). In the keyboard, alternate <i>rows</i> are assembled magnet-flipped (mandatory per DESIGN.md; checkerboard explicitly forbidden). Units are otherwise identical hardware.</li>
+      <li><b>Not yet designed — model as placeholders, do not scale off this sheet:</b> bobbin (split of the 4.00–4.75 band into running clearance / guide wall / bobbin, and any flanges in the 0.5 coil-to-shell-end margins); end caps; keycap stem, travel stops and rest position (stops must not encroach on the ±2.5 full-force stroke); coil + Hall lead exit (prefer through/around the caps — any shell penetration must re-check shielding, cf. the rejected slit study); keyboard mounting interface; magnet coating allowance (Ø8.00 is the bare FEMM model diameter — resolve at vendor quote).</li>
+    </ol>
+  </div>
+
+  <div class="titleblock">
+    <div><div class="k">Project</div><div class="big">OMNISWITCH</div></div>
+    <div><div class="k">Units / projection</div>mm · axisym.</div>
+    <div><div class="k">Date</div>2026-07-28</div>
+    <div><div class="k">Drawing</div><div class="big">st_w10 actuator</div></div>
+    <div><div class="k">Rev</div>frozen (DESIGN.md)</div>
+    <div><div class="k">Scale</div>screen — dims govern</div>
+    <div style="grid-column: 1 / -1"><div class="k">Source</div>
+      sim/converge_shell.py VARIANTS["st_w10"] · docs/DESIGN.md · reference only — not a manufacturing drawing</div>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* ================================================================
+   GEOMETRY — single source of truth for every drawn coordinate.
+   Values copied EXACTLY from sim/converge_shell.py VARIANTS["st_w10"]
+   (magnet/coils/shell), docs/DESIGN.md (guide gap, caps, Hall, travel).
+   All numbers in mm.  z axis = actuation axis, +z toward keycap.
+   ================================================================ */
+const G = {
+  magnet: { r: 4.00, len: 12.00 },          // D8x12, center at z=0 mid-stroke
+  travel: 2.50,                             // mover travel +/- from mid-stroke
+  guide:  { r1: 4.00, r2: 4.75 },           // guide gap + bobbin (TBD)
+  coil:   { r1: 4.75, r2: 6.95,             // winding annulus
+            lo: [-12.5, -0.5],              // lo coil z-span, NI = -300 at s=1
+            hi: [ 0.5, 12.5] },             // hi coil z-span, NI = +300 at s=1
+  gap:    { r1: 6.95, r2: 7.00 },           // coil-to-shell clearance
+  shell:  { r1: 7.00, r2: 8.00, z: 13.00 }, // 1018 tube, z = +/-13
+  capT:   1.00,                             // end cap axial thickness (x2, TBD)
+  hallZ:  -9.5,                             // Hall sensor z (assumed, TBD)
+  stemR:  2.0,                              // keycap stem, purely illustrative (TBD)
+};
+const PKG = { r: G.shell.r2, z: G.shell.z + G.capT };   // 8.0, 14.0
+
+/* ---------- tiny SVG string helpers ---------- */
+const A    = o => Object.entries(o).map(([k, v]) => ` ${k}="${v}"`).join("");
+const line = (x1, y1, x2, y2, cls, extra = {}) =>
+  `<line${A({x1: r2(x1), y1: r2(y1), x2: r2(x2), y2: r2(y2), class: cls, ...extra})}/>`;
+const rect = (x, y, w, h, extra = {}) =>
+  `<rect${A({x: r2(x), y: r2(y), width: r2(w), height: r2(h), ...extra})}/>`;
+const txt  = (x, y, s, extra = {}) =>
+  `<text${A({x: r2(x), y: r2(y), ...extra})}>${s}</text>`;
+const r2   = v => Math.round(v * 100) / 100;
+
+/* filled arrowhead: tip at (x,y), pointing in direction ang (deg, screen coords) */
+function arrow(x, y, ang, color = "#35507a") {
+  const L = 9, W = 2.7, a = ang * Math.PI / 180;
+  const bx = x - L * Math.cos(a), by = y - L * Math.sin(a);
+  const px = -Math.sin(a) * W, py = Math.cos(a) * W;
+  return `<polygon points="${r2(x)},${r2(y)} ${r2(bx + px)},${r2(by + py)} ` +
+         `${r2(bx - px)},${r2(by - py)}" fill="${color}"/>`;
+}
+
+/* vertical dimension: line at x between y1<y2, arrows out, rotated label */
+function dimV(x, y1, y2, label, extFromX = null) {
+  let s = "";
+  if (extFromX !== null) {
+    s += line(extFromX, y1, x - 4, y1, "dimline");
+    s += line(extFromX, y2, x - 4, y2, "dimline");
+  }
+  s += line(x, y1, x, y2, "dimline");
+  s += arrow(x, y1, -90) + arrow(x, y2, 90);
+  const my = (y1 + y2) / 2;
+  s += txt(x - 3.5, my, label,
+           {class: "dimtext", "text-anchor": "middle",
+            transform: `rotate(-90 ${r2(x - 3.5)} ${r2(my)})`});
+  return s;
+}
+
+/* horizontal dimension between x1<x2 at y; small spans get outside arrows */
+function dimH(x1, x2, y, label, opts = {}) {
+  let s = "";
+  const inside = (x2 - x1) >= 24;
+  if (inside) {
+    s += line(x1, y, x2, y, "dimline") + arrow(x1, y, 180) + arrow(x2, y, 0);
+    s += txt((x1 + x2) / 2, y - 4, label, {class: "dimtext", "text-anchor": "middle"});
+  } else {
+    s += line(x1 - 14, y, x2 + 14, y, "dimline");
+    s += arrow(x1, y, 0) + arrow(x2, y, 180);
+    const tx = opts.textX !== undefined ? opts.textX : x2 + 16;
+    s += txt(tx, y - 4, label, {class: "dimtext",
+             "text-anchor": opts.anchor || "start"});
+  }
+  return s;
+}
+
+/* ================================================================
+   SECTION A-A  (axis vertical, +z up)
+   ================================================================ */
+(function sectionView() {
+  const S = 14;                      // px per mm
+  const CX = 255;                    // axis x, px
+  const Y0 = 262;                    // y of z=0
+  const W = 570, H = 562;
+  const X = r => CX + r * S;         // mm radius -> px (negative r = left side)
+  const Y = z => Y0 - z * S;         // mm z -> px
+
+  /* mm-space rect on BOTH sides of the axis */
+  const mrect = (r1, z1, r2, z2, attrs) =>
+    rect(X(r1), Y(z2), (r2 - r1) * S, (z2 - z1) * S, attrs) +
+    rect(X(-r2), Y(z2), (r2 - r1) * S, (z2 - z1) * S, attrs);
+
+  let s = "";
+
+  /* --- parts, back to front --- */
+  // guide/bobbin envelope (TBD): light, dashed
+  s += mrect(G.guide.r1, -G.shell.z, G.guide.r2, G.shell.z,
+             {fill: "#ececec", class: "tbd"});
+  // coils
+  for (const span of [G.coil.lo, G.coil.hi]) {
+    s += mrect(G.coil.r1, span[0], G.coil.r2, span[1], {fill: "#f6dcc4"});
+    s += mrect(G.coil.r1, span[0], G.coil.r2, span[1],
+               {fill: "url(#hCu)", class: "partline"});
+  }
+  // shell
+  s += mrect(G.shell.r1, -G.shell.z, G.shell.r2, G.shell.z, {fill: "#dbe4ee"});
+  s += mrect(G.shell.r1, -G.shell.z, G.shell.r2, G.shell.z,
+             {fill: "url(#hSteel)", class: "partline"});
+  // end caps (TBD): dashed, full width
+  s += rect(X(-PKG.r), Y(PKG.z), 2 * PKG.r * S, G.capT * S,
+            {fill: "#f6f2e6", class: "tbd"});
+  s += rect(X(-PKG.r), Y(-G.shell.z), 2 * PKG.r * S, G.capT * S,
+            {fill: "#f6f2e6", class: "tbd"});
+
+  // magnet phantom positions at +/- travel
+  const mh = G.magnet.len / 2;
+  for (const dz of [G.travel, -G.travel])
+    s += rect(X(-G.magnet.r), Y(dz + mh), 2 * G.magnet.r * S, G.magnet.len * S,
+              {class: "phantom", fill: "none"});
+  // magnet at mid-stroke
+  s += rect(X(-G.magnet.r), Y(mh), 2 * G.magnet.r * S, G.magnet.len * S,
+            {fill: "#dff0e2"});
+  s += rect(X(-G.magnet.r), Y(mh), 2 * G.magnet.r * S, G.magnet.len * S,
+            {fill: "url(#hMag)", class: "partline"});
+  // magnetization arrow + poles
+  s += line(CX, Y(-3.6), CX, Y(3.6), "", {stroke: "#2c6e3f", "stroke-width": 1.6});
+  s += arrow(CX, Y(3.9), -90, "#2c6e3f");
+  s += txt(CX + 6, Y(4.6), "N", {"font-size": 12, "font-weight": 700, fill: "#2c6e3f"});
+  s += txt(CX + 6, Y(-4.9) + 9, "S", {"font-size": 12, "font-weight": 700, fill: "#2c6e3f"});
+
+  // keycap stem, illustrative
+  s += line(X(-G.stemR), Y(mh), X(-G.stemR), Y(16.6), "phantom");
+  s += line(X(G.stemR), Y(mh), X(G.stemR), Y(16.6), "phantom");
+  s += txt(CX, Y(17.1), "to keycap (stem TBD)",
+           {class: "parttext", "text-anchor": "middle", fill: "#666"});
+
+  // Hall sensor (TBD)
+  s += rect(X(-0.75), Y(G.hallZ) - 6, 1.5 * S, 12, {fill: "#fff", class: "tbd"});
+  s += line(X(0.75) + 2, Y(G.hallZ), X(9.3), Y(-12.3), "dimline");
+  s += txt(X(9.5), Y(-12.3) + 3.5, "Hall sensor (TBD), z ≈ −9.5", {class: "dimtext"});
+
+  // centerline (stops short of the keycap label) + z=0 origin line
+  s += line(CX, Y(16.65), CX, Y(-16.2), "cl");
+  s += line(X(-8.55), Y0, X(8.55), Y0, "cl");
+
+  // coil labels (centered in the right coil sections)
+  s += txt(X(5.85), Y(6.5), "hi",  {class: "parttext", "text-anchor": "middle",
+        transform: `rotate(-90 ${r2(X(5.85))} ${r2(Y(6.5))})`});
+  s += txt(X(5.85), Y(-6.5), "lo", {class: "parttext", "text-anchor": "middle",
+        transform: `rotate(-90 ${r2(X(5.85))} ${r2(Y(-6.5))})`});
+
+  /* --- left-side dimensions --- */
+  s += dimV(X(-8) - 28, Y(mh), Y(-mh), "12.0 magnet", X(-G.magnet.r));
+  s += dimV(X(-8) - 28, Y(mh + G.travel), Y(mh), "2.5 travel", X(-G.magnet.r));
+  s += dimV(X(-8) - 28, Y(-mh), Y(-mh - G.travel), "2.5 travel", X(-G.magnet.r));
+  s += dimV(X(-8) - 66, Y(G.shell.z), Y(-G.shell.z), "26.0 shell", X(-8));
+  s += dimV(X(-8) - 104, Y(PKG.z), Y(-PKG.z), "28.0 overall", X(-8));
+
+  /* --- right-side ordinates (top half; part symmetric about z=0) --- */
+  const colX = CX + 8 * S + 16, txX = colX + 12;
+  const ords = [
+    { z: 0,    from: 8.55,       lab: "z = 0 origin (mid-stroke)" },
+    { z: 0.5,  from: G.coil.r2,  lab: "+0.5 coil hi" },
+    { z: 6.0,  from: G.magnet.r, lab: "+6.0 magnet" },
+    { z: 8.5,  from: G.magnet.r, lab: "+8.5 envelope" },
+    { z: 12.5, from: G.coil.r2,  lab: "+12.5 coil hi" },
+    { z: 13.0, from: 8,          lab: "+13.0 shell" },
+    { z: 14.0, from: 8,          lab: "+14.0 cap" },
+  ].sort((a, b) => b.z - a.z);          // top first (ascending y)
+  let prevY = -1e9;
+  for (const o of ords) {
+    const yTrue = Y(o.z);
+    const yLab = Math.max(yTrue, prevY + 13);
+    prevY = yLab;
+    s += line(X(o.from) + 2, yTrue, colX, yTrue, "dimline");
+    if (Math.abs(yLab - yTrue) > 0.5) s += line(colX, yTrue, txX - 2, yLab, "dimline");
+    s += `<circle cx="${r2(colX)}" cy="${r2(yTrue)}" r="1.6" fill="#35507a"/>`;
+    s += txt(txX, yLab + 3.5, o.lab, {class: "dimtext"});
+  }
+  // bottom captions
+  s += txt(CX, H - 22, "coils series-opposed (lo −NI, hi +NI), one continuous wire",
+           {class: "parttext", "text-anchor": "middle", fill: "#555"});
+  s += txt(CX, H - 8,
+           "axial features symmetric about z=0 (coil lo mirrors hi at −0.5…−12.5); Hall excepted",
+           {class: "dimtext", "text-anchor": "middle", "font-style": "italic"});
+
+  document.getElementById("section").innerHTML =
+    `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${s}</svg>`;
+})();
+
+/* ================================================================
+   VIEW B — end view (concentric circles)
+   ================================================================ */
+(function endView() {
+  const S = 15, CX = 175, CY = 195, W = 560, H = 390;
+  const C = (r, extra) =>
+    `<circle cx="${CX}" cy="${CY}" r="${r2(r * S)}"${A(extra)}/>`;
+  let s = "";
+
+  s += C(G.shell.r2, {fill: "#dbe4ee", class: "partline"});
+  s += C(G.shell.r1, {fill: "#fff", class: "partline"});
+  s += C(G.gap.r1,   {fill: "#f6dcc4", class: "partline"});   // coil OD (13.90)
+  s += C(G.coil.r1,  {fill: "#ececec", class: "partline"});   // coil ID / guide OD
+  s += C(G.magnet.r, {fill: "#dff0e2", class: "partline"});   // magnet
+  s += txt(CX, CY + 4, "N", {"font-size": 13, "font-weight": 700,
+           fill: "#2c6e3f", "text-anchor": "middle"});
+
+  // crosshair centerlines
+  s += line(CX - 8.9 * S, CY, CX + 8.9 * S, CY, "cl");
+  s += line(CX, CY - 8.9 * S, CX, CY + 8.9 * S, "cl");
+
+  // leaders: [radius to attach, angle deg (screen, CCW from +x), label]
+  const leaders = [
+    [G.shell.r2,             68, "Ø16.00 shell OD (1018 steel)"],
+    [G.shell.r1,             47, "Ø14.00 shell ID"],
+    [G.gap.r1,               29, "Ø13.90 coil OD (0.05 radial clearance)"],
+    [G.coil.r1,              12, "Ø9.50 coil ID / bobbin OD"],
+    [G.magnet.r,            -25, "Ø8.00 magnet (D8×12)"],
+  ];
+  let ty = CY - 8 * S + 4;
+  for (const [rr, ang, lab] of leaders) {
+    const a = -ang * Math.PI / 180;
+    const px = CX + rr * S * Math.cos(a), py = CY + rr * S * Math.sin(a);
+    const tx = 348;
+    s += line(px, py, tx - 6, ty - 3.5, "dimline");
+    s += `<circle cx="${r2(px)}" cy="${r2(py)}" r="1.8" fill="#35507a"/>`;
+    s += txt(tx, ty, lab, {class: "dimtext"});
+    ty += 30;
+  }
+  document.getElementById("endview").innerHTML =
+    `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${s}</svg>`;
+})();
+
+/* ================================================================
+   DETAIL C — radial stack bar, r = 0..8 at z = 0
+   ================================================================ */
+(function detailView() {
+  const S = 58, X0 = 42, YT = 92, BH = 78, W = 560, H = 236;
+  const X = r => X0 + r * S;
+  const YB = YT + BH;
+  let s = "";
+
+  const seg = (r1, r2v, fill, hatch) => {
+    let t = rect(X(r1), YT, (r2v - r1) * S, BH, {fill});
+    if (hatch) t += rect(X(r1), YT, (r2v - r1) * S, BH,
+                         {fill: `url(#${hatch})`});
+    t += rect(X(r1), YT, (r2v - r1) * S, BH, {fill: "none", class: "partline"});
+    return t;
+  };
+  s += seg(0,          G.magnet.r, "#dff0e2", "hMag");   // magnet
+  s += seg(G.guide.r1, G.guide.r2, "#ececec", null);     // guide+bobbin
+  s += seg(G.coil.r1,  G.coil.r2,  "#f6dcc4", "hCu");    // coil
+  s += seg(G.gap.r1,   G.gap.r2,   "#ffffff", null);     // air
+  s += seg(G.shell.r1, G.shell.r2, "#dbe4ee", "hSteel"); // shell
+
+  // part names — wide segments horizontal, narrow guide segment rotated
+  for (const [rm, nm] of [[2.0, "magnet"], [5.85, "coil"], [7.5, "shell"]])
+    s += txt(X(rm), YT + BH / 2 + 3.5, nm,
+             {class: "parttext", "text-anchor": "middle"});
+  s += txt(X(4.375), YT + BH / 2, "guide+bobbin",
+           {class: "parttext", "font-size": 9, "text-anchor": "middle",
+            transform: `rotate(-90 ${r2(X(4.375))} ${r2(YT + BH / 2)})`});
+
+  // centerline at r=0
+  s += line(X(0), YT - 24, X(0), YB + 50, "cl");
+  s += txt(X(0), YT - 28, "℄", {"font-size": 11, "text-anchor": "middle"});
+
+  // boundary radii above bar: [r, label x-offset (jog), tier 0=tall 1=short]
+  const radii = [[4.00, 0, 0], [4.75, 0, 1], [6.95, -18, 0], [7.00, 18, 1], [8.00, 0, 0]];
+  for (const [r, dx, tier] of radii) {
+    const yl = YT - (tier ? 34 : 52);          // label baseline y
+    s += line(X(r), YT - 2, X(r), yl + 12, "dimline");
+    s += line(X(r), yl + 12, X(r) + dx, yl + 4, "dimline");
+    s += txt(X(r) + dx, yl, `r=${r.toFixed(2)}`,
+             {class: "dimtext", "text-anchor": "middle"});
+  }
+
+  // segment widths below bar
+  const yd = YB + 16;
+  s += dimH(X(0),          X(G.magnet.r), yd, "4.00");
+  s += dimH(X(G.guide.r1), X(G.guide.r2), yd, "0.75");
+  s += dimH(X(G.coil.r1),  X(G.coil.r2),  yd, "2.20");
+  s += dimH(X(G.shell.r1), X(G.shell.r2), yd, "1.00");
+  s += dimH(X(G.gap.r1),   X(G.gap.r2),   yd + 22, "0.05 air", {textX: X(G.gap.r2) + 16});
+  s += line(X(G.gap.r1), YB + 2, X(G.gap.r1), yd + 22, "dimline");
+  s += line(X(G.gap.r2), YB + 2, X(G.gap.r2), yd + 22, "dimline");
+  // extension ticks for the main width row
+  for (const r of [0, 4.00, 4.75, 6.95, 7.00, 8.00])
+    s += line(X(r), YB + 2, X(r), yd + 3, "dimline");
+
+  document.getElementById("detail").innerHTML =
+    `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${s}</svg>`;
+})();
+</script>
+</body>
+</html>
