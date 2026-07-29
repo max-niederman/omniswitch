@@ -152,7 +152,10 @@
         <tr><td>Top end cap (TBD)</td><td class="n">+13.0</td><td class="n">+14.0</td><td class="n">27.0 – 28.0</td><td class="n">1.0</td></tr>
         <tr><td>Magnet @ mid-stroke</td><td class="n">−6.0</td><td class="n">+6.0</td><td class="n">8.0 – 20.0</td><td class="n">12.0</td></tr>
         <tr><td>Magnet swept envelope (±2.5 travel)</td><td class="n">−8.5</td><td class="n">+8.5</td><td class="n">5.5 – 22.5</td><td class="n">17.0</td></tr>
-        <tr><td>Hall sensing element, on axis (TBD, note 9)</td><td class="n" colspan="2">z ≈ −9.5</td><td class="n">≈ 4.5</td><td class="n">—</td></tr>
+        <tr><td>Cap pedestal, Ø5.5 (molded in bottom cap)</td><td class="n">−13.0</td><td class="n">−11.4</td><td class="n">1.0 – 2.6</td><td class="n">1.6</td></tr>
+        <tr><td>Sensor PCB, Ø7.0</td><td class="n">−11.4</td><td class="n">−10.6</td><td class="n">2.6 – 3.4</td><td class="n">0.8</td></tr>
+        <tr><td>Hall package (SOT-23 class), note 9</td><td class="n">−10.6</td><td class="n">−9.5</td><td class="n">3.4 – 4.5</td><td class="n">1.1</td></tr>
+        <tr><td>Hall sensing element, on axis</td><td class="n" colspan="2">z ≈ −9.9</td><td class="n">≈ 4.1</td><td class="n">—</td></tr>
         <tr><td><b>Overall package</b></td><td class="n">−14.0</td><td class="n">+14.0</td><td class="n">0 – 28.0</td><td class="n"><b>28.0</b></td></tr>
       </tbody>
     </table>
@@ -181,12 +184,12 @@
       <li><b>Mover:</b> magnet + key attachment only. Travel ±2.5 from shown mid-stroke position = 5.0 full-force stroke. Magnet is axially magnetized; drawn with N toward +z, but see note 10. Keycap stem attachment TBD — the stem is drawn illustratively, its width is not a dimension.</li>
       <li><b>Coil ID is a hard floor:</b> bobbin/guide must keep winding r<sub>in</sub> ≥ 4.75 (Ø9.50). If the bobbin wall pushes r<sub>in</sub> above 4.75, winding numbers must be re-run (DESIGN.md open item 2). Guide bore must clear the Ø8.00 magnet over the full ±2.5 travel with low friction (PTFE/POM running surface).</li>
       <li><b>Shell:</b> plain closed tube, 1.0 wall. Do NOT slit (evaluated and rejected — see DESIGN.md §"Shell slit"). Low-carbon magnetic steel (1018/mild); DOM tube preferred, never roll-formed open-seam as the OD-setting part. The shell is the flux return, the magnetic shield, and the housing.</li>
-      <li><b>End caps:</b> polymer (material spec open), assumed ≤1.0 axial each to stay inside the 28.0 envelope; geometry not yet designed. Drawn as full-Ø16 discs butted to the shell end faces for envelope accounting only — attachment (bore plug / adhesive / snap) and the top-cap stem clearance bore are undesigned. Steel caps would add shielding but also cogging — simulate before substituting.</li>
+      <li><b>End caps:</b> polymer (material spec open), assumed ≤1.0 axial each to stay inside the 28.0 envelope. Drawn as full-Ø16 discs butted to the shell end faces for envelope accounting — attachment (bore plug / adhesive / snap) and the top-cap stem clearance bore are undesigned. The bottom cap now carries the molded sensor pedestal and the through-pin exits (note 9). Steel caps would add shielding but also cogging — simulate before substituting.</li>
       <li><b>Coil polarity:</b> lo coil NI = −300 A·t, hi coil NI = +300 A·t at rated drive s=1 (opposed). One continuous wire; phase reversal at the inter-coil gap.</li>
       <li>At full +2.5 travel the magnet top face reaches z = +8.5, leaving 4.5 to the shell end (z = +13) for stem/guide features inside the bore.</li>
-      <li><b>Hall sensor:</b> z ≈ −9.5 is the <i>sensing element</i> location (FEMM field-evaluation point of the crosstalk study — not yet simulated in this shell), on axis, in bore. Only 1.0 exists between it and the magnet swept envelope (z = −8.5): the entire sensor package + its carrier from the bottom-cap region must stay below z = −8.5, or interfere with the mover. Carrier not yet designed.</li>
+      <li><b>Hall sensor (frozen 2026-07-28, DESIGN.md §Position sensor):</b> rides the bottom cap inside the bore — molded pedestal Ø5.5 to z = −11.4, sensor PCB Ø7.0 × 0.8 to −10.6, SOT-23-class package (1.1) to −9.5, giving <b>1.0 clearance</b> to the magnet face at full press (−8.5). Sensing element 0.3–0.5 below the package top → z ≈ −9.8…−10.0; sees ≈ 70–420 mT (N45SH) over the stroke. OPEN: 420 mT exceeds ±300 mT linear-Hall ranges — resolve at part selection, or shorten the pedestal (h = 0 → element ≈ −11.5, 40–237 mT, clearance 2.6). Travel stops must never let the magnet reach the package (overtravel ≪ 1.0). Study: sim/hall_position_study.py → results/hallpos.csv.</li>
       <li><b>Row-stripe polarity:</b> this sheet draws N toward +z (keycap). In the keyboard, alternate <i>rows</i> are assembled magnet-flipped (mandatory per DESIGN.md; checkerboard explicitly forbidden). Units are otherwise identical hardware.</li>
-      <li><b>Not yet designed — model as placeholders, do not scale off this sheet:</b> bobbin (split of the 4.00–4.75 band into running clearance / guide wall / bobbin, and any flanges in the 0.5 coil-to-shell-end margins); end caps; keycap stem, travel stops and rest position (stops must not encroach on the ±2.5 full-force stroke); coil + Hall lead exit (prefer through/around the caps — any shell penetration must re-check shielding, cf. the rejected slit study); keyboard mounting interface; magnet coating allowance (Ø8.00 is the bare FEMM model diameter — resolve at vendor quote).</li>
+      <li><b>Not yet designed — model as placeholders, do not scale off this sheet:</b> bobbin (split of the 4.00–4.75 band into running clearance / guide wall / bobbin, and any flanges in the 0.5 coil-to-shell-end margins); end-cap attachment + stem bore; keycap stem, travel stops and rest position (stops must not encroach on the ±2.5 full-force stroke); through-cap pin layout for the 2 coil tails + 3–4 sensor leads (pins drawn at r ≈ 3.1 illustratively; nothing may penetrate the steel shell, cf. the rejected slit study); keyboard mounting interface; magnet coating allowance (Ø8.00 is the bare FEMM model diameter — resolve at vendor quote).</li>
     </ol>
   </div>
 
@@ -220,7 +223,13 @@ const G = {
   gap:    { r1: 6.95, r2: 7.00 },           // coil-to-shell clearance
   shell:  { r1: 7.00, r2: 8.00, z: 13.00 }, // 1018 tube, z = +/-13
   capT:   1.00,                             // end cap axial thickness (x2, TBD)
-  hallZ:  -9.5,                             // Hall sensor z (assumed, TBD)
+  sensor: {                                 // cap-riding Hall asm (frozen, DESIGN.md)
+    ped: { r: 2.75, z1: -13.0, z2: -11.4 }, // molded cap pedestal, O5.5
+    pcb: { r: 3.50, z1: -11.4, z2: -10.6 }, // sensor PCB disc, O7.0 x 0.8
+    pkg: { r: 1.45, z1: -10.6, z2: -9.5 },  // SOT-23-class, top = 1.0 clr to magnet
+    elemZ: -9.9,                            // sensing element (0.3-0.5 below top)
+    pinR: 3.1,                              // through-cap pin radius (layout TBD)
+  },
   stemR:  2.0,                              // keycap stem, purely illustrative (TBD)
 };
 const PKG = { r: G.shell.r2, z: G.shell.z + G.capT };   // 8.0, 14.0
@@ -337,10 +346,45 @@ function dimH(x1, x2, y, label, opts = {}) {
   s += txt(CX, Y(17.1), "to keycap (stem TBD)",
            {class: "parttext", "text-anchor": "middle", fill: "#666"});
 
-  // Hall sensor (TBD)
-  s += rect(X(-0.75), Y(G.hallZ) - 6, 1.5 * S, 12, {fill: "#fff", class: "tbd"});
-  s += line(X(0.75) + 2, Y(G.hallZ), X(9.3), Y(-12.3), "dimline");
-  s += txt(X(9.5), Y(-12.3) + 3.5, "Hall sensor (TBD), z ≈ −9.5", {class: "dimtext"});
+  // Hall sensor assembly on the bottom cap (frozen — see note 9)
+  const sn = G.sensor;
+  for (const [p, fill] of [[sn.ped, "#f6f2e6"], [sn.pcb, "#cdddc6"],
+                           [sn.pkg, "#9aa2ad"]])
+    s += rect(X(-p.r), Y(p.z2), 2 * p.r * S, (p.z2 - p.z1) * S,
+              {fill, class: "partline"});
+  s += `<circle cx="${CX}" cy="${r2(Y(sn.elemZ))}" r="2.2" fill="#b04545"/>`;
+  // pins through the cap (layout TBD)
+  for (const sgn of [-1, 1])
+    s += line(X(sgn * sn.pinR), Y(sn.pcb.z1), X(sgn * sn.pinR), Y(-15.6),
+              "phantom");
+
+  // bottom-half ordinates for the sensor stack (right side)
+  const sOrds = [
+    { z: sn.pkg.z2, from: sn.pkg.r, lab: "−9.5 pkg top (1.0 clr, note 9)" },
+    { z: sn.elemZ,  from: 0.25,     lab: "≈−9.9 sensing element" },
+    { z: sn.pcb.z2, from: sn.pcb.r, lab: "−10.6 PCB top" },
+    { z: sn.ped.z2, from: sn.ped.r, lab: "−11.4 pedestal top" },
+  ];
+  let sPrevY = -1e9;
+  const sColX = CX + 8 * S + 16;
+  for (const o of sOrds) {
+    const yTrue = Y(o.z);
+    const yLab = Math.max(yTrue, sPrevY + 13);
+    sPrevY = yLab;
+    s += line(X(o.from) + 2, yTrue, sColX, yTrue, "dimline");
+    if (Math.abs(yLab - yTrue) > 0.5)
+      s += line(sColX, yTrue, sColX + 10, yLab, "dimline");
+    s += `<circle cx="${r2(sColX)}" cy="${r2(yTrue)}" r="1.6" fill="#35507a"/>`;
+    s += txt(sColX + 12, yLab + 3.5, o.lab, {class: "dimtext"});
+  }
+  // 1.0 clearance: magnet full-press face (-8.5) to package top (-9.5)
+  s += line(X(-2.6) - 14, Y(-8.5), X(-2.2) + 6, Y(-8.5), "dimline");
+  s += line(X(-2.6) - 14, Y(sn.pkg.z2), X(-sn.pkg.r) - 2, Y(sn.pkg.z2),
+            "dimline");
+  s += line(X(-2.6), Y(-8.5) - 12, X(-2.6), Y(sn.pkg.z2) + 12, "dimline");
+  s += arrow(X(-2.6), Y(-8.5), 90) + arrow(X(-2.6), Y(sn.pkg.z2), -90);
+  s += txt(X(-2.6) - 4, Y(-9.0) + 3.5, "1.0", {class: "dimtext",
+           "text-anchor": "end"});
 
   // centerline (stops short of the keycap label) + z=0 origin line
   s += line(CX, Y(16.65), CX, Y(-16.2), "cl");

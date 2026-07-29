@@ -16,6 +16,7 @@ docs/EXPLORATION.md and the sweep CSVs referenced in sim/converge_shell.py).
 | Coils ×2 | 4.75 – 6.95 | lo −12.5..−0.5, hi 0.5..12.5 | opposed polarity, series, one continuous wire |
 | Air | 6.95 – 7.0 | | |
 | Shell = housing | 7.0 – 8.0 | ±13 | 1018 steel tube, 16 mm OD |
+| Hall sensor asm | 0 – 3.5 | pedestal −13..−11.4, PCB −11.4..−10.6, package −10.6..−9.5 | on bottom cap, in bore; see §Position sensor |
 
 Package: **28 × 16 mm** incl. 5 mm stroke and end caps (specs: ≤35, ≤16).
 
@@ -116,6 +117,53 @@ performance. Studies: `sim/slit_shielding.py` (planar 2D transverse-shielding),
   edge. If eddy screening ever genuinely matters, the fix is a ferrite return,
   not a slit.
 
+## Position sensor: cap-riding in-bore Hall (added 2026-07-28)
+
+Placement study: `sim/hall_position_study.py` → `results/hallpos.csv`
+(15 magnetostatic solves over mover ±2.5 × drive {0,±1} × 9 sensor heights,
+plus bare-magnet analytic check +2.2–3.7%, ABC-doubling ≤0.75% and
+mesh-halving ≤0.44% on the own-signal channel; neighbor windows ≤4% at the
+frozen in-bore heights, 5–18% at the deepest board-level rows — still far
+inside the rejection margin). Board-level sensing (element under the package, e.g. z = −18)
+**evaluated and REJECTED as primary**: below the shell the sensor loses the
+×23 incoming shielding — neighbor-magnet pickup is ~85× the shielded in-bore
+case (12-neighbor adversarial sum ≈ 1.6 mm apparent before feedforward,
+breaching the 2–5% force-fidelity bar), and the own-coil term grows to
+1.9 mm apparent. In-bore, every term is comfortable.
+
+**Frozen setup — the sensor rides the bottom cap, inside the bore** (mm):
+cap inner face −13.0 → molded pedestal Ø5.5 to −11.4 → sensor PCB Ø7.0 × 0.8
+to −10.6 → SOT-23-class package (1.1) to −9.5, i.e. **1.0 clearance to the
+magnet face at full press (−8.5)**. Sensing element sits 0.3–0.5 below the
+package top → z ≈ −9.8…−10.0, matching the crosstalk study's assumed
+z = −9.5 within 0.5 mm (its 0.18 mT / 3 µm neighbor numbers stand). The PCB
+(Ø7.0) slides inside the Ø8.0 guide bore; 3–4 sensor pins + 2 coil tails exit
+as through-cap pins (layout TBD) → the switch mounts through-hole and nothing
+penetrates the steel shell.
+
+At the element (N45SH scale): B ≈ 70–420 mT over the stroke, gradient
+≈ 30–120 mT/mm → sub-2 µm noise floor at 50 µT-rms sensor noise. Own-coil
+field ≈ 21 mT at rated drive (0.68 mm apparent) but is a clean k·I term
+(constant over stroke to 1–2%, odd in drive sign to <0.2%) → calibrated
+feedforward residual ~7–13 µm. Firmware obligations from the study: mid-PWM
+synchronous Hall sampling (25 kHz ripple, ~0.3 mT class), rest-position
+auto-zero (Hall offset drift 0.1–0.5 mT over temp), and the −0.12 %/K magnet
+tempco must rescale the per-unit B(s) sensor map via the winding-resistance
+thermometer (do NOT use sensor-IC built-in NdFeB compensation — the board/cap
+sensor stays near ambient while the magnet heats). B(s) is a separate
+factory-cal item from the K(z) force map (same rig).
+
+**OPEN — range conflict at part selection**: no common linear Hall covers
+420 mT (±300 mT is the ceiling: TMAG5170-A2 class). Resolve by (a) a
+high-range part if one exists, or (b) shortening the pedestal — its height is
+the single free parameter: h = 0 (PCB directly on the cap face) puts the
+element at ≈ −11.5, B ≈ 40–237 mT (fits ±266/±300 with margin), clearance
+2.6. Mechanical: the sensor stack must NEVER be the bottom travel stop —
+stops (undesigned) must cap downward overtravel ≪ 1.0 beyond s = −2.5.
+Fallback variant if through-hole mounting is dropped: flush PCB-mount with
+the die in a cap cavity (≈ −13.4..−15 rows in hallpos.csv) — ~8× better
+crosstalk than board-level, ~5× worse than in-bore.
+
 ## Open items before committing hardware
 
 1. Vendor datasheet + quotes: D8×12 N45SH (margins near threshold use catalog
@@ -123,7 +171,12 @@ performance. Studies: `sim/slit_shielding.py` (planar 2D transverse-shielding),
 2. Bobbin design → exact coil r_in; re-run winding numbers if r_in > 4.75.
 3. Prototype validation: force-vs-current-vs-position rig; cogging table
    measurement; two-unit crosstalk measurement at 19.05 mm to confirm the ×18.
-4. Position sensor selection + integration (not yet simulated — Hall in bore
-   at z ≈ −9.5 assumed by the crosstalk study; shell interaction TBD).
+4. Hall part selection (placement now frozen — see §Position sensor). Must
+   resolve the range conflict: element ≈ z −9.9 sees ~70–420 mT (N45SH),
+   above the ±300 mT linear-Hall ceiling; either a high-range part or a
+   shorter cap pedestal (h = 0 → element ≈ −11.5, 40–237 mT, clearance 2.6).
+   Then: PWM-synchronous sampling, rest auto-zero, tempco-rescaled B(s) map.
 5. End caps: steel caps would add axial shielding + a return path but also
    cogging — currently assumed polymer; simulate if sensor needs quieting.
+   Bottom cap now carries the sensor pedestal + through-pin exits (§Position
+   sensor); attachment to the shell and pin layout still undesigned.

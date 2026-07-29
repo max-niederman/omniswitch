@@ -8,7 +8,9 @@ maps measured key position → commanded force in real time.
 Current phase: **actuator design converged** — see `docs/DESIGN.md` (frozen
 design: st_w10 — D8×12 N45SH magnet, dual coil, 1.0 mm steel shell/housing,
 28×16 mm; builders in `sim/designs.py` + `sim/converge_shell.py`; exploration
-digest in `docs/EXPLORATION.md`). Next: sensor selection, prototype, firmware.
+digest in `docs/EXPLORATION.md`). Hall sensor placement frozen (cap-riding
+in-bore stack — `docs/DESIGN.md` §Position sensor, study in
+`sim/hall_position_study.py`). Next: Hall part selection, prototype, firmware.
 
 ## Hard requirements (actuator, per switch)
 
