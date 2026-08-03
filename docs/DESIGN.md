@@ -73,6 +73,29 @@ shunt + INA181, mid-ON-time sampling; PWM 25 kHz phase-staggered in groups.
 Force calibration: K(z) per-unit factory map on N45SH; temperature-compensate
 K by −0.12 %/K of magnet temp using winding resistance as the thermometer.
 
+## Thermal budget (2026-08-02, analytic + adversarially cross-checked)
+
+Still air, standalone switch: shell sheds ~1.2–1.9 W at 60 K rise
+(h_conv ≈ 9–10 W/m²K on 18 cm²; radiation 2 W/m²K bare steel → 7 painted —
+paint/oxidize the shell if air-cooled); pins+PCB add a parallel ~30 K/W path
+→ ~2–3 W total, confirming the 2–2.5 W "thermal reality" note. In-matrix the
+3 mm inter-switch gaps ≈ boundary-layer thickness, so per-switch h drops and
+the case exterior becomes the system bottleneck.
+
+Water-cooled shell (jacket ~0.2 K/W, 25 °C coolant): the **winding's own
+radial conduction binds**, and the magnet (no self-heating, floats to within
+~6 K of the coil bore face) is the limiting node, not wire insulation.
+R_wind = 1.10/k_eff K/W (exact uniform-generation annulus; dry round-wire
+k_eff ≈ 0.15–0.35 W/mK, varnish/VPI-impregnated ≈ 0.6–0.96 — literature
+range, the dominant uncertainty). Continuous capability at magnet ≤ 100 °C
+(N45SH): as-built dry (0.05 mm air gap) ~12 W → 2.0 N; gap-potted only
+~16 W → 2.3 N; **fully impregnated winding ~30–45 W → 3.2–3.8 N**, i.e. the
+1.5 A driver ceiling (41–45 W hot) becomes available *continuously* — thermal
+and driver limits coincide. Magnet PWM eddy heating: mW-class, negligible.
+POM bobbin sits at magnet temp (~100 °C at the dry limit) → prefer PTFE-lined
+or impregnated build. Impregnation is the single highest-leverage step; the
+coil-shell gap may be potted freely (both stator, no moving interface).
+
 ## Keyboard integration (from the matrix feasibility study)
 
 - 19.05 mm pitch is viable. Feedforward compensation of the neighbor force map
