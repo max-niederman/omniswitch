@@ -30,7 +30,7 @@ Run inside `nix develop` from the repo root, ALWAYS under `timeout`:
     python sim/converge_shell.py xtalk-analyze        # offline
     python sim/converge_shell.py ac st_w10            # 30 harmonic solves
     python sim/converge_shell.py ac st_w05L
-    python sim/converge_shell.py demag st_w10         # 36 solves (needs sweep)
+    python sim/converge_shell.py demag st_w10 [s_peak [tag]]  # 36 solves (needs sweep)
     python sim/converge_shell.py demag-analyze        # offline, vs st_w03
 """
 
@@ -445,7 +445,10 @@ def ac_summary(name: str):
 
 
 # ---------------------------------------------------------------- (d) demag
-def do_demag(name: str = "st_w10"):
+def do_demag(name: str = "st_w10", s_peak: float = 0.0, tag: str = "demag"):
+    """s_peak=0 -> bus-stall default s_hold/0.30. Pass an explicit s_peak
+    (+ a distinct tag, e.g. demag185) to qualify a beefier driver's
+    overdrive without overwriting the baseline CSVs."""
     m = VARIANTS[name]
     ev = evaluate(m, load_rows(name))
     s_hold = max(max(abs(v) for v in ev["scale_up"].values()),
@@ -456,12 +459,13 @@ def do_demag(name: str = "st_w10"):
         parts=[qd.Part("A", 0.0, 12.0, +1, facing=0)],
         coils=list(m.coils),
         shell=(sh.r_in, sh.r_out, sh.z_bot, sh.z_top),
-        s_hold=round(s_hold, 4), s_peak=round(s_hold / 0.30, 4))
+        s_hold=round(s_hold, 4),
+        s_peak=s_peak or round(s_hold / 0.30, 4))
     qd.DESIGNS[name] = d
     print(f"{name}: s_hold={d.s_hold} s_peak={d.s_peak} "
           f"(peak NI/coil = {300 * d.s_peak:.0f} A-t)")
     qd.run_design(d, grades=["N45SH", "N38UH"], temps=[80.0, 100.0, 120.0],
-                  zs=[0.0, 2.5], tag="demag")
+                  zs=[0.0, 2.5], tag=tag)
     print(f"done {name}")
 
 
@@ -580,7 +584,9 @@ def main(argv):
     elif mode == "ac-summary":
         ac_summary(argv[1])
     elif mode == "demag":
-        do_demag(argv[1] if len(argv) > 1 else "st_w10")
+        do_demag(argv[1] if len(argv) > 1 else "st_w10",
+                 float(argv[2]) if len(argv) > 2 else 0.0,
+                 argv[3] if len(argv) > 3 else "demag")
     elif mode == "demag-analyze":
         demag_analyze()
     else:

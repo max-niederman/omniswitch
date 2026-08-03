@@ -55,6 +55,13 @@ Package: **28 × 16 mm** incl. 5 mm stroke and end caps (specs: ≤35, ≤16).
   N45SH 1.62/1.40/1.17 @ 80/100/120 °C; N38UH 2.20/1.94/1.65.
   Full record: results/demag_margins.csv (regenerate:
   `nix develop -c python sim/qualify_demag.py analyze`).
+  Driver-overdrive addendum (2026-08-02): re-qualified at s=1.85 (555 A·t/coil
+  = a 1.5 A driver on a 370 t/coil winding; covers any driver ≤1.5 A at that
+  N): margins nearly unchanged — N45SH 1.58/1.36/1.14, N38UH 2.14/1.88/1.61
+  @ 80/100/120 °C; N45SH stays ≥1.3 at 100 °C, so a 1.5 A-class driver is
+  demag-safe. F(s=1.85) = 3.8 N worst pos/100 °C to 4.5 N center/80 °C,
+  gain linear vs the stroke sweep to <0.2% (no shell saturation). Run:
+  `converge_shell.py demag st_w10 1.85 demag185` → results/st_w10_demag185_*.
 
 ## Winding + drive (preliminary — re-quote after bobbin design)
 
